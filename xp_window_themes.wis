@@ -1,0 +1,178 @@
+<!-- XP window themes installation profile for WarpIN -->
+
+<WARPIN VERSION="1.0.12" OS="OS2_45x">
+
+<HEAD>
+
+<REXX name="displayScreenshot">
+  rc = rxFuncAdd('SysLoadFuncs','REXXUTIL','SysLoadFuncs')
+  rc = SysLoadFuncs()
+  title = 'Preview'
+  message = "Do you want to see a preview screenshot of this theme? Selecting 'Yes' will extract the screenshot image to your TEMP folder and open it in your default image viewer."
+  flags = 4
+  rc = WirexxShowMessage(title, message, flags)
+  if rc = 6
+    then do
+      tempdir = WirexxGetEnv('TEMP')
+      tempdir = translate(tempdir, '\', '/')
+      tempdir = strip(tempdir, 'T', '\')
+      rc = WirexxExtract('1', 'XP_theme.jpg', tempdir)
+      if rc = 0
+        then do
+          rc = SysOpenObject(tempdir'\XP_theme.jpg', 'DEFAULT', '1')
+        end
+        else do
+          title = 'ERROR'
+          message = 'The screenshot could not be extracted. You probably do not have a TEMP folder defined. Please check your CONFIG.SYS'
+          rc = WirexxShowMessage(title, message)
+        end
+    end
+  return ''
+</REXX>
+
+<TITLE>XP Window Themes</TITLE>
+
+<PCK INDEX=1
+     PACKAGEID="David Graser\Window themes - XP\Docs\1\0\0"
+     TITLE="XP Window Themes Documentation"
+     TARGET="?:\ecs\doc\misc_theme"
+     FIXED
+     DESELECT
+     LONGFILENAMES
+     =("displayScreenshot")
+
+     CREATEOBJECT="REPLACE WPFolder|XP Window^themes|<WP_DESKTOP>|OBJECTID=<XP_theme_FLDR>"
+     CREATEOBJECT="REPLACE WPShadow|readme|<XP_theme_FLDR>|SHADOWID=$(1)\readme;OBJECTID=<XP_theme_README>"
+
+     >This package contains the documentation and license for the XP window themes.</PCK>
+
+<PCK INDEX=2
+     PACKAGEID="David Graser\Window themes - XP\Window Themes\1\0\0"
+     TARGET="?:\ecs\system\thememgr"
+     TITLE="XP Window Themes"
+     SELECT
+     FIXED
+     LONGFILENAMES
+
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Basic (Revised)"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Black"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Black 2"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Green"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Green 1"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Another Green theme"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Grey "
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Grey 2"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Metal"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Mixed Colors"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Yellow"
+     EXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Yellow 1"
+
+     EXECUTE="cd $(2) && copy ?:\os2\dll\pmmrgres.dll && addtheme.cmd|winxp"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpblk"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpblk2"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpgr1"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpgre"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpgree"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpgrey"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpgrey2"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpmetal"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpmix"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpyel"
+     EXECUTE="cd $(2) && addtheme.cmd|winxpyel1"
+
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Basic (Revised)"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Black"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Black 2"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Green"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Green 1"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Another Green theme"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Grey "
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Grey 2"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Metal"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Mixed Colors"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Yellow"
+     DEEXECUTE="cd $(2) && XP_theme_remove.cmd|thememgr.idx XP Theme - Yellow 1"
+
+
+     >This package contains XP window themes for the eComStation Theme Manager.</PCK>
+
+<PCK INDEX=3
+     PACKAGEID="David Graser\Window themes - XP\Window themes\1\0\0
+     TITLE="Titlebar Bitmaps for XP Windows Themes"
+     TARGET="?:\ecs\system\estyler\bitmap\tbkgnds"
+     FIXED
+     NODESELECT
+     LONGFILENAMES
+
+     >This package contains a few titlebar bitmaps for the XP window themes.</PCK>
+
+</HEAD>
+
+<!-- Here come the different pages. They are linked by
+     the <NEXTBUTTON> tags, which must have a target.
+     Each page must have a TYPE= attribute, which tells
+     WarpIn what will be visible on that page. -->
+
+<BODY>
+
+<PAGE INDEX=1 TYPE=README>
+<TEXT>
+Please read through all of the following before installing.
+Then select "Next" to continue.
+Select "Cancel" to abort installation.</TEXT>
+
+<README FORMAT=PLAIN EXTRACTFROMPCK="1">readme</README>
+</PAGE>
+
+<!-- The TYPE_README will show a README text in a multi-line entry field. -->
+
+<PAGE INDEX=2 TYPE=README>
+<TEXT>
+By pressing the "I agree" button, you agree to all terms and conditions of the below licence agreement.
+</TEXT>
+<NEXTBUTTON TARGET=3>~I agree</NEXTBUTTON>
+<README FORMAT=HTML>
+
+<P>This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.
+
+<P>You are allowed to use all themes in this package freely under the condition that any
+contributors and myself are in no way responsible for any damage or loss you may suffer.
+If you can't agree to this, you should NOT use any of the themes contained in this package.
+
+</README>
+</PAGE>
+
+<!-- The TYPE=CONTAINER will list the packages which can be installed. -->
+
+<PAGE INDEX=3 TYPE=CONTAINER>
+<TEXT>
+Please select the parts of the misc_theme_like theme you wish to install. For the full experience, you will need to install all of them.
+Note that installing the scheme will OVERWRITE the Custom Scheme of the Scheme Palette with out backup!
+</TEXT>
+</PAGE>
+
+<!-- The TYPE=CONFIGURE will allow the user to set the CONFIG.SYS and
+     WPS classes/objects stuff. -->
+
+<PAGE INDEX=4 TYPE=CONFIGURE>
+<TEXT>
+WarpIN can create a folder with objects and shadows for easy access to the documentation and configuration objects
+for you. Deselect 'Create Workplace Shell objects' if you do not want that.
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=5 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+Press "Install" to finally begin installing the misc_theme_like theme.
+
+NOTE: If you get "File locked" message boxes during install, you probably have installed it already.
+You must then select "Unlock (DosReplaceModule)" for the installation to complete successfully.
+</TEXT>
+</PAGE>
+
+</BODY>
+
+</WARPIN>

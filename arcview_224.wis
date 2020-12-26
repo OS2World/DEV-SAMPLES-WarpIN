@@ -1,0 +1,300 @@
+<WARPIN VERSION="1.0.16" OS="OS2_3x">
+<HEAD>
+
+    <!-- REXX FUNCTIONS ----------------------------------------------------->
+
+    <REXX NAME="DefaultPath">
+        path = VALUE('OSDIR',,'OS2ENVIRONMENT')
+        IF path == '' THEN DO
+            uxpath = VALUE('UNIXROOT',,'OS2ENVIRONMENT')
+            IF uxpath == '' THEN uxpath = '?:\usr'
+            path = uxpath'\local'
+        END
+        RETURN path
+    </REXX>
+
+    <!-- PACKAGES ----------------------------------------------------------->
+
+    <PCK INDEX=1
+         PACKAGEID="Alex Taylor\Archive Viewer\Program\2\2\4"
+         TITLE="Archive Viewer executable"
+         TARGET="=("DefaultPath")\bin"
+         SELECT
+         NODESELECT
+         CREATEOBJECT="REPLACE WPProgram|Archive Viewer|<WP_TOOLS>|EXENAME=$(1)\ARCVIEW.EXE;PROGTYPE=PM;ASSOCFILTER=*.ZIP,*.TAR,*_TAR,*.Z,*.TGZ,*.GZ,*.TBZ,*.TBZ2,*.BZ2,*.TLZ,*.LZ,*.7Z,*.RAR,*.ARJ,*.JAR,*.LZH,*.LHA,*.WPI,*.RPM;OBJECTID=<ECS_ARCVIEW>"
+         CONFIGSYS="SET PATH=$(1);| ADDRIGHT"
+         EXECUTE="erase $(1)\arcview.ini"
+    >This is the main program executable.</PCK>
+
+    <PCK INDEX=10
+         PACKAGEID="Alex Taylor\Archive Viewer\Messages (English)\2\2\4"
+         TITLE="Default (English) language support"
+         TARGET="=("DefaultPath")\lang"
+         SELECT
+         NODESELECT
+         CONFIGSYS="SET DPATH=$(10);| ADDRIGHT"
+         EXECUTE="erase $(10)\arcview.msg"
+    >This package contains the default (English) program message file.  It is required regardless of what other language(s) may be installed.</PCK>
+
+    <PCK INDEX=11
+         PACKAGEID="Alex Taylor\Archive Viewer\Help (English)\2\2\4"
+         TITLE="Default (English) help"
+         TARGET="=("DefaultPath")\help"
+         SELECT
+         CONFIGSYS="SET HELP=$(11);| ADDRIGHT"
+         EXECUTE="erase $(11)\arcview.hlp"
+    >This package contains the default (English) help file.</PCK>
+
+    <PCK INDEX=4
+         PACKAGEID="Alex Taylor\Archive Viewer\Docs\2\2\4"
+         TITLE="Supporting files and documentation"
+         TARGET="=("DefaultPath")\doc\arcview"
+         SELECT
+         EXECUTE="erase $(4)\readme"
+    >README.TXT and other supporting files (optional but recommended).</PCK>
+
+
+    <!-- External Language Packages ---------------------------------------->
+
+    <GROUP TITLE="Optional language support">
+      <PCK INDEX=310
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Dutch)\2\2\4"
+           EXTERNAL="arcview_nl.wpi"
+           TITLE="Dutch language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(310);| ADDRIGHT"
+           EXECUTE="erase $(310)\arcview.msg"
+      >This package contains the program message file for Dutch language support.</PCK>
+
+      <PCK INDEX=311
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Dutch)\2\2\4"
+           EXTERNAL="arcview_nl.wpi"
+           TITLE="Dutch help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(311);| ADDRIGHT"
+           EXECUTE="erase $(311)\arcview.hlp"
+      >This package contains the program help file in Dutch.</PCK>
+
+
+      <PCK INDEX=330
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (French)\2\2\4"
+           EXTERNAL="arcview_fr.wpi"
+           TITLE="French language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(330);| ADDRIGHT"
+           EXECUTE="erase $(330)\arcview.msg"
+      >This package contains the program message file for French language support.</PCK>
+
+      <PCK INDEX=331
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (French)\2\2\4"
+           EXTERNAL="arcview_fr.wpi"
+           TITLE="French help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(331);| ADDRIGHT"
+           EXECUTE="erase $(331)\arcview.hlp"
+      >This package contains the program help file in French.</PCK>
+
+
+      <PCK INDEX=340
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Spanish)\2\2\4"
+           EXTERNAL="arcview_es.wpi"
+           TITLE="Spanish language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(340);| ADDRIGHT"
+           EXECUTE="erase $(340)\arcview.msg"
+      >This package contains the program message file for Spanish language support.</PCK>
+
+      <PCK INDEX=341
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Spanish)\2\2\4"
+           EXTERNAL="arcview_es.wpi"
+           TITLE="Spanish help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(341);| ADDRIGHT"
+           EXECUTE="erase $(341)\arcview.hlp"
+      >This package contains the program help file in Spanish.</PCK>
+
+
+      <PCK INDEX=390
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Italian)\2\2\4"
+           EXTERNAL="arcview_it.wpi"
+           TITLE="Italian language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(390);| ADDRIGHT"
+           EXECUTE="erase $(390)\arcview.msg"
+      >This package contains the program message file for Italian language support.</PCK>
+
+      <PCK INDEX=391
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Italian)\2\2\4"
+           EXTERNAL="arcview_it.wpi"
+           TITLE="Italian help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(391);| ADDRIGHT"
+           EXECUTE="erase $(391)\arcview.hlp"
+      >This package contains the program help file in Italian.</PCK>
+
+
+      <PCK INDEX=460
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Swedish)\2\2\4"
+           EXTERNAL="arcview_sv.wpi"
+           TITLE="Swedish language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(460);| ADDRIGHT"
+           EXECUTE="erase $(460)\arcview.msg"
+      >This package contains the program message file for Swedish language support.</PCK>
+
+      <PCK INDEX=461
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Swedish)\2\2\4"
+           EXTERNAL="arcview_sv.wpi"
+           TITLE="Swedish help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(461);| ADDRIGHT"
+           EXECUTE="erase $(461)\arcview.hlp"
+      >This package contains the program help file in Swedish.</PCK>
+
+
+      <PCK INDEX=490
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (German)\2\2\4"
+           EXTERNAL="arcview_de.wpi"
+           TITLE="German language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(490);| ADDRIGHT"
+           EXECUTE="erase $(490)\arcview.msg"
+      >This package contains the program message file for German language support.</PCK>
+
+      <PCK INDEX=491
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (German)\2\2\4"
+           EXTERNAL="arcview_de.wpi"
+           TITLE="German help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(491);| ADDRIGHT"
+           EXECUTE="erase $(491)\arcview.hlp"
+      >This package contains the program help file in German.</PCK>
+
+
+      <PCK INDEX=810
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Japanese)\2\2\4"
+           EXTERNAL="arcview_ja.wpi"
+           TITLE="Japanese language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(810);| ADDRIGHT"
+           EXECUTE="erase $(810)\arcview.msg"
+      >This package contains the program message file for Japanese language support.</PCK>
+
+<!--
+      PCK INDEX=811
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Japanese)\2\2\4"
+           EXTERNAL="arcview_ja.wpi"
+           TITLE="Japanese help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(811);| ADDRIGHT"
+           EXECUTE="erase $(811)\arcview.hlp"
+      This package contains the program help file in Japanese./PCK
+-->
+
+      <PCK INDEX=820
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Korean)\2\2\4"
+           EXTERNAL="arcview_ko.wpi"
+           TITLE="Korean language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(820);| ADDRIGHT"
+           EXECUTE="erase $(820)\arcview.msg"
+      >This package contains the program message file for Korean language support.</PCK>
+
+      PCK INDEX=821
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Korean)\2\2\4"
+           EXTERNAL="arcview_ko.wpi"
+           TITLE="Korean help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(821);| ADDRIGHT"
+           EXECUTE="erase $(821)\arcview.hlp"
+      This package contains the program help file in Korean./PCK
+
+
+      <PCK INDEX=860
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Chinese)\2\2\4"
+           EXTERNAL="arcview_cx.wpi"
+           TITLE="Simplified Chinese language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(860);| ADDRIGHT"
+           EXECUTE="erase $(860)\arcview.msg"
+      >This package contains the program message file for Simplified Chinese language support.</PCK>
+
+      <PCK INDEX=861
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Chinese)\2\2\4"
+           EXTERNAL="arcview_cx.wpi"
+           TITLE="Simplified Chinese help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(861);| ADDRIGHT"
+           EXECUTE="erase $(861)\arcview.hlp"
+      >This package contains the program help file in Simplified Chinese.</PCK>
+
+
+      <PCK INDEX=880
+           PACKAGEID="Alex Taylor\Archive Viewer\Messages (Taiwanese)\2\2\4"
+           EXTERNAL="arcview_tw.wpi"
+           TITLE="Traditional Chinese language support"
+           TARGET="=("DefaultPath")\lang"
+           SELECT
+           CONFIGSYS="SET DPATH=$(880);| ADDRIGHT"
+           EXECUTE="erase $(880)\arcview.msg"
+      >This package contains the program message file for Traditional Chinese language support.</PCK>
+
+      <PCK INDEX=861
+           PACKAGEID="Alex Taylor\Archive Viewer\Help (Taiwanese)\2\2\4"
+           EXTERNAL="arcview_tw.wpi"
+           TITLE="Traditional Chinese help"
+           TARGET="=("DefaultPath")\help"
+           SELECT
+           CONFIGSYS="SET HELP=$(881);| ADDRIGHT"
+           EXECUTE="erase $(881)\arcview.hlp"
+      >This package contains the program help file in Traditional Chinese.</PCK>
+    </GROUP>
+
+
+</HEAD>
+
+<BODY>
+
+    <PAGE INDEX=1 TYPE=README>
+        <TEXT>This package will install the Archive Viewer, version 2.24.  It will replace any older versions of the Archive Viewer which are located under the same path.  If you have an old configuration file from version 1.x in the executable directory, it will be deleted.</TEXT>
+        <README EXTRACTFROMPCK="4">readme.txt</README>
+    </PAGE>
+
+    <PAGE INDEX=2 TYPE=README>
+        <TEXT>The revision history of version 2 is listed below.</TEXT>
+        <README EXTRACTFROMPCK="4">changes.txt</README>
+        </README>
+    </PAGE>
+
+    <PAGE INDEX=3 TYPE=CONTAINER>
+        <TEXT>Please select target directories for the Archive Viewer files.
+
+The default paths are recommended.</TEXT>
+    </PAGE>
+
+    <PAGE INDEX=4 TYPE=CONFIGURE>
+        <TEXT>Confirm configuration options:</TEXT>
+        <NEXTBUTTON TARGET=0>~Install</NEXTBUTTON>
+    </PAGE>
+
+</BODY>
+</WARPIN>
+

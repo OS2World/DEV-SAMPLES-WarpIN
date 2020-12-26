@@ -1,0 +1,343 @@
+<WARPIN VERSION="1.0.15" "CODEPAGE=850">
+<HEAD>
+    <TITLE>Arca Noae Package Manager</TITLE>
+
+    <!-- REXX FUNCTIONS ----------------------------------------------------->
+
+    <REXX NAME="DefaultPath">
+        path = VALUE('OSDIR',,'OS2ENVIRONMENT')
+        IF path <> '' THEN
+            RETURN path
+
+        _bd = SysBootDrive()
+        IF _bd == '' THEN
+            _bd = FILESPEC('DRIVE', VALUE('COMSPEC',,'OS2ENVIRONMENT'))
+
+        RETURN _bd'\OS2\APPS'
+    </REXX>
+
+    <REXX NAME="ReqDLL">
+        /* Searches the system LIBPATH for the specified DLL.  If not found,
+         * returns the string 'REQUIRES=xxx'.
+         *
+         * Parameters:
+         *      dname   Name of the DLL to look for (must include extension)
+         *      reqpkg  Value of REQUIRES string to return if DLL is not found
+         */
+        CALL RxFuncAdd 'SysLoadFuncs', 'REXXUTIL', 'SysLoadFuncs'
+        CALL SysLoadFuncs
+
+        PARSE ARG dname reqpkg
+        IF dname == '' THEN RETURN ''
+
+        _bd = SysBootDrive()
+        IF _bd == '' THEN
+            _bd = FILESPEC('DRIVE', VALUE('COMSPEC',,'OS2ENVIRONMENT'))
+        _csys = _bd'\CONFIG.SYS'
+
+        CALL SysFileSearch 'LIBPATH=', _csys, 'match.'
+        DO i = 1 TO match.0
+            PARSE UPPER VAR match.i _lead 'LIBPATH=' _lpath
+            IF (_lead == '') & (_lpath <> '') THEN LEAVE
+        END
+        CALL SETLOCAL
+        _testenv = 'TEST_'dname'_LIBPATH'
+        CALL VALUE _testenv, _lpath, 'OS2ENVIRONMENT'
+        location = SysSearchPath( _testenv, dname )
+        CALL ENDLOCAL
+
+        IF location == '' THEN DO
+            CALL WirexxPutEnv dname, '0'
+            IF reqpkg <> '' THEN
+                RETURN 'REQUIRES='reqpkg
+        END
+
+        CALL WirexxPutEnv dname, '1'
+        RETURN ''
+    </REXX>
+
+    <REXX NAME="ReqDLLVer">
+        /* Searches the system LIBPATH for the requisite version of the
+         * specified DLL.  If not found, returns the string 'REQUIRES=xxx';
+         * if an obsolete version was found, warn the user and abort.
+         *
+         * NOTE: This _only_ works for REXX DLLs which have a version
+         *       function that returns a string of the form
+         *       'major[.minor[.refresh]]'.
+         *
+         * Parameters:
+         *      dname   Name of the DLL to look for (must include extension)
+         *      func    Name of the DLL's version-check function
+         *      minver  Minimum version required
+         *      reqpkg  Value of REQUIRES string to return if DLL is not found
+         */
+        CALL RxFuncAdd 'SysLoadFuncs', 'REXXUTIL', 'SysLoadFuncs'
+        CALL SysLoadFuncs
+
+        PARSE ARG dname func minver reqpkg
+        IF dname == '' THEN RETURN ''
+
+        _bd = SysBootDrive()
+        IF _bd == '' THEN
+            _bd = FILESPEC('DRIVE', VALUE('COMSPEC',,'OS2ENVIRONMENT'))
+        _csys = _bd'\CONFIG.SYS'
+
+        CALL SysFileSearch 'LIBPATH=', _csys, 'match.'
+        DO i = 1 TO match.0
+            PARSE UPPER VAR match.i _lead 'LIBPATH=' _lpath
+            IF (_lead == '') & (_lpath <> '') THEN LEAVE
+        END
+        CALL SETLOCAL
+        _testenv = 'TEST_'dname'_LIBPATH'
+        CALL VALUE _testenv, _lpath, 'OS2ENVIRONMENT'
+        location = SysSearchPath( _testenv, dname )
+        CALL ENDLOCAL
+
+        /* DLL was not found, so return REQUIRES string. */
+        IF location == '' THEN DO
+            CALL WirexxPutEnv dname, '0'
+            IF reqpkg <> '' THEN
+                RETURN 'REQUIRES='reqpkg
+        END
+
+        /* Otherwise, check the installed version. */
+        CALL RxFuncAdd func, dname, func
+        INTERPRET 'foundver =' func'()'
+        PARSE VAR minver _mmajor'.'_mminor'.'_mrefresh
+        PARSE VAR foundver _fmajor'.'_fminor'.'_frefresh
+        CALL RxFuncDrop func
+        IF _fmajor == '' | _mmajor == '' THEN RETURN ''
+        IF ( VERIFY( _fmajor, '0123456789') > 0 ) |,
+           ( VERIFY( _mmajor, '0123456789') > 0 ) THEN RETURN ''
+        major_ok = 0
+        minor_ok = 0
+        refresh_ok = 0
+        IF _fmajor >= _mmajor THEN major_ok = 1
+        IF _mminor == '' THEN minor_ok = 1
+        ELSE IF _fminor <> '' THEN DO
+            IF ( VERIFY( _fminor, '0123456789') == 0 ) &,
+               ( VERIFY( _mminor, '0123456789') == 0 )
+            THEN
+                IF _fminor >= _mminor THEN minor_ok = 1
+        END
+
+        IF _mrefresh == '' THEN refresh_ok = 1
+        ELSE IF _frefresh <> '' THEN DO
+            IF ( VERIFY( _frefresh, '0123456789') == 0 ) &,
+               ( VERIFY( _mrefresh, '0123456789') == 0 )
+            THEN
+                IF _frefresh >= _mrefresh THEN refresh_ok = 1
+        END
+
+        IF major_ok & minor_ok & refresh_ok THEN DO
+            CALL WirexxPutEnv dname, '1'
+            RETURN ''
+        END
+
+        /* DLL was found but is obsolete.  We can't really handle
+         * this situation automatically, so inform the user and then
+         * exit.
+         */
+        rc = WirexxShowMessage('Obsolete' dname 'Detected',,
+                'This package requires a newer version ('minver') of' dname,
+                'than the one currently installed on this system ('foundver').',
+                || '0d0a0d0a'x ||,
+                'You can install the latest version using this package;',
+                'however, to avoid conflicts, you must uninstall the',
+                'existing version ('location') yourself before continuing.',
+                || '0d0a0d0a'x ||,
+                'This installation program will now exit.')
+        CALL WirexxCancel
+        RETURN ''
+    </REXX>
+
+    <REXX NAME="ConditionalTitle">
+        PARSE ARG dllname title
+        was_found = WirexxGetEnv( dllname )
+        IF was_found == 1 THEN
+            RETURN '[Already Installed]' title
+        ELSE
+            RETURN title
+    </REXX>
+
+    <REXX NAME="SelectIfRequired">
+        PARSE ARG dllname
+        was_found = WirexxGetEnv( dllname )
+        IF was_found == 1 THEN
+            RETURN ''
+        ELSE
+            RETURN 'SELECT'
+    </REXX>
+
+    <REXX NAME="EraseIfExists">
+        PARSE ARG filemask
+        ok = SysFileTree( filemask, 'found.', 'FO',, '**---')
+        IF ok <> 0 THEN RETURN ''
+        IF found.0 == 0 THEN RETURN ''
+        RETURN 'EXECUTE="ERASE' filemask'"'
+    </REXX>
+
+    <!-- PACKAGES ----------------------------------------------------------->
+
+    <!-- The main program -->
+
+    <PCK INDEX=1
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\Program\1\0\4"
+        TITLE="Arca Noae Package Manager (including English language support)"
+        TARGET="$(WARPIN_DEFAULTTOOLSPATH)\anpm"
+        SELECT
+        BASE
+
+         =("ReqDLL VROBJ.DLL 2")
+         =("ReqDLLVer VROBJEX.DLL VRXVersion 1.3 3")
+         =("ReqDLL VRSPLITB.DLL 4")
+         =("ReqDLLVer RXUTILEX.DLL Sys2Version 0.1.2 5")
+         =("ReqDLL RXUNLOCK.DLL 6")
+         =("ReqDLL RXULS.DLL 7")
+         =("ReqDLL RWINI.DLL 8")
+
+         =("EraseIfExists $(1)\scripts\yum*.pyc")
+
+        CREATEOBJECT="WPFolder|Arca Noae Package Manager|<WP_DESKTOP>|OBJECTID=<WP_ANPMFOLDER>"
+        CREATEOBJECT="REPLACE WPProgram|Arca Noae Package Manager|<WP_ANPMFOLDER>|EXENAME=$(1)\anpm.exe;PROGTYPE=PM;OBJECTID=<WP_ANPM>;"
+        CREATEOBJECT="REPLACE WPProgram|ReadMe|<WP_ANPMFOLDER>|EXENAME=e.exe;OBJECTID=<WP_ANPMFOLDER_README>;TITLE=ReadMe;PROGTYPE=PM;PARAMETERS=$(1)\readme.txt;STARTUPDIR=$(1);"
+        CREATEOBJECT="REPLACE WPProgram|License|<WP_ANPMFOLDER>|EXENAME=e.exe;OBJECTID=<WP_ANPMFOLDER_LICENSE>;TITLE=License;PROGTYPE=PM;PARAMETERS=$(1)\COPYING;STARTUPDIR=$(1);"
+        CREATEOBJECT="WPShadow|Arca Noae Package Manager|<WP_CONFIG>|SHADOWID=<WP_ANPM>;OBJECTID=<SHADOW_ANPM>;"
+     >This package contains the Arca Noae graphical software package manager, along with English language support files.</PCK>
+
+
+    <!-- Support DLLs -->
+
+    <GROUP TITLE="Support Libraries (required if not already installed)">
+
+    <PCK INDEX=2
+        PACKAGEID="Watcom\VX-REXX\Runtime\2\1\4"
+        TITLE="=("ConditionalTitle VROBJ.DLL VX-REXX Runtime (VROBJ.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired VROBJ.DLL")
+    >This package contains the required library VROBJ.DLL</PCK>
+
+    <PCK INDEX=3
+        PACKAGEID="Alex Taylor\VX-REXX Extensions\Runtime\1\3\3"
+        TITLE="=("ConditionalTitle VROBJEX.DLL VX-REXX Extensions (VROBJEX.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired VROBJEX.DLL")
+    >This package contains the required library VROBJEX.DLL</PCK>
+
+    <PCK INDEX=4
+        PACKAGEID="Alex Taylor\VX-REXX Splitbar Control\Runtime\1\0\0"
+        TITLE="=("ConditionalTitle VRSPLITB.DLL VX-REXX Splitbar (VRSPLITB.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired VRSPLITB.DLL")
+    >This package contains the required library VRSPLITB.DLL</PCK>
+
+    <PCK INDEX=5
+        PACKAGEID="Alex Taylor\REXX Utilities - Extended\Runtime\0\1\6"
+        TITLE="=("ConditionalTitle RXUTILEX.DLL Extended REXX Utilities (RXUTILEX.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired RXUTILEX.DLL")
+    >This package contains the required library RXUTILEX.DLL</PCK>
+
+    <PCK INDEX=6
+        PACKAGEID="Veit Kannegieser\RXUNLOCK\Runtime\2005\7\7"
+        TITLE="=("ConditionalTitle RXUNLOCK.DLL REXX Unlock (RXUNLOCK.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired RXUNLOCK.DLL")
+    >This package contains the required library RXUNLOCK.DLL</PCK>
+
+    <PCK INDEX=7
+        PACKAGEID="Alex Taylor\REXX Universal Language Support Library\Runtime\0\6\1"
+        TITLE="=("ConditionalTitle RXULS.DLL REXX Universal Language Support Library (RXULS.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired RXULS.DLL")
+    >This package contains the required library RXULS.DLL</PCK>
+
+    <PCK INDEX=8
+        PACKAGEID="RL Walsh\rwIni\Runtime\1\2\0"
+        TITLE="=("ConditionalTitle RWINI.DLL rwIni (RWINI.DLL)")"
+        TARGET="=("DefaultPath")\dll"
+        =("SelectIfRequired RWINI.DLL")
+    >This package contains the required library RWINI.DLL</PCK>
+
+    </GROUP>
+
+    <!-- Language support packages  -->
+
+    <GROUP TITLE="Optional Language Support Packages">
+
+    <PCK INDEX=1031
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\Dutch\1\0\4"
+        TITLE="Dutch language support"
+        EXTERNAL="anpm_nl.wpi"
+        TARGET="$(1)"
+        FIXED
+    >This package contains the Dutch language support files for Arca Noae Package Manager.</PCK>
+
+    <PCK INDEX=1033
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\French\1\0\4"
+        TITLE="French language support"
+        EXTERNAL="anpm_fr.wpi"
+        TARGET="$(1)"
+        FIXED
+    >This package contains the French language support files for Arca Noae Package Manager.</PCK>
+
+    <PCK INDEX=1034
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\Spanish\1\0\4"
+        TITLE="Spanish language support"
+        EXTERNAL="anpm_es.wpi"
+        TARGET="$(1)"
+        FIXED
+        CREATEOBJECT="REPLACE WPProgram|ReadMe (ES)|<WP_ANPMFOLDER>|EXENAME=e.exe;OBJECTID=<WP_ANPMFOLDER_README_ES>;TITLE=ReadMe (ES);PROGTYPE=PM;PARAMETERS=$(1)\readme_es.txt;STARTUPDIR=$(1);"
+    >This package contains the Spanish language support files for Arca Noae Package Manager.</PCK>
+
+    <PCK INDEX=1039
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\Italian\1\0\4"
+        TITLE="Italian language support"
+        EXTERNAL="anpm_it.wpi"
+        TARGET="$(1)"
+        FIXED
+    >This package contains the Italian language support files for Arca Noae Package Manager.</PCK>
+
+    <PCK INDEX=1046
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\Swedish\1\0\4"
+        TITLE="Swedish language support"
+        EXTERNAL="anpm_sv.wpi"
+        TARGET="$(1)"
+        FIXED
+    >This package contains the Swedish language support files for Arca Noae Package Manager.</PCK>
+
+    <PCK INDEX=1049
+        PACKAGEID="Arca Noae\Arca Noae Package Manager\German\1\0\4"
+        TITLE="German language support"
+        EXTERNAL="anpm_de.wpi"
+        TARGET="$(1)"
+        FIXED
+        CREATEOBJECT="REPLACE WPProgram|ReadMe (DE)|<WP_ANPMFOLDER>|EXENAME=e.exe;OBJECTID=<WP_ANPMFOLDER_README_DE>;TITLE=ReadMe (DE);PROGTYPE=PM;PARAMETERS=$(1)\readme_de.txt;STARTUPDIR=$(1);"
+    >This package contains the German language support files for Arca Noae Package Manager.</PCK>
+
+    </GROUP>
+
+</HEAD>
+
+<BODY>
+
+   <PAGE INDEX=1 TYPE=README>
+    <NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+    <TEXT>Arca Noae Package Manager is a graphical utility for managing software packages.
+    </TEXT>
+    <README EXTRACTFROMPCK="1" format=PLAIN>readme.txt</README>
+   </PAGE>
+
+   <PAGE INDEX=2 TYPE=CONTAINER>
+    <NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+    <TEXT>Select the components to install.
+    </TEXT>
+   </PAGE>
+
+   <PAGE INDEX=3 TYPE=CONFIGURE>
+    <TEXT>Ready to install.</TEXT>
+    <NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+   </PAGE>
+
+</BODY>
+</WARPIN>

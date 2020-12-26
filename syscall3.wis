@@ -1,0 +1,126 @@
+<WARPIN VERSION="1.0.15" OS="os2_45x">
+   <HEAD>
+      <TITLE>Base Device Driver and DLL to allow execution of arbitrary user code in Ring 0</TITLE>
+      <PCK INDEX=1
+         PACKAGEID="Lars Erdmann\SYSENTER-SYSEXIT Ring-0 direct call mechanism\DriverBinary\3\0\0"
+         TITLE="Driver and Sym File"
+         TARGET="?:\OS2\BOOT" NODESELECT FIXED
+         CONFIGSYS="BASEDEV=SYSCALL.SYS | REMOVELINE"
+         CONFIGSYS="BASEDEV=SYSCALL.SYS | ADDAFTER(CHKDSK.SYS)"
+      >This is the Driver binary and is required
+      </PCK>
+      <PCK INDEX=2
+         PACKAGEID="Lars Erdmann\SYSENTER-SYSEXIT Ring-0 direct call mechanism\DriverTrace\3\0\0"
+         TITLE="Driver Trace Formatting File"
+         REQUIRES=1
+         TARGET="?:\OS2\SYSTEM\TRACE" FIXED
+         CONFIGSYS="TRACEBUF=2048 /M=W,Q,NODTI /D=ALL | UNIQUE"
+         CONFIGSYS="TRACE=ON | REMOVEPART"
+         CONFIGSYS="TRACE=ON 10 | ADDAFTER(TRACEBUF) | UNIQUE"
+      >This is the driver trace formatting file (needed to format trace data)
+      </PCK>
+      <PCK INDEX=3
+         PACKAGEID="Lars Erdmann\SYSENTER-SYSEXIT Ring-0 direct call mechanism\DLLBinary\3\0\0"
+         TITLE="Dll and Sym File"
+         TARGET="?:\OS2\DLL" NODESELECT FIXED
+      >This is the DLL binary and is required
+      </PCK>
+      <PCK INDEX=4
+         PACKAGEID="Lars Erdmann\SYSENTER-SYSEXIT Ring-0 direct call mechanism\TestBinary\3\0\0"
+         TITLE="Test Utility"
+         TARGET="?:\OS2\APPS"
+      >This is the test utility
+      </PCK>
+      <PCK INDEX=6
+         PACKAGEID="Lars Erdmann\SYSENTER-SYSEXIT Ring-0 direct call mechanism\Progammers Toolkit\3\0\0"
+         TITLE="Import Library and Header file"
+         TARGET="$(TMP)"
+      >This is the import library and header file to use SYSCALL.DLL and is optional
+      </PCK>
+      <PCK INDEX=7
+         PACKAGEID="Lars Erdmann\SYSENTER-SYSEXIT Ring-0 direct call mechanism\Sources\3\0\0"
+         TITLE="Sources"
+         TARGET="$(TMP)"
+      >This is the source code and is optional
+      </PCK>
+   </HEAD>
+   <BODY>
+
+      <PAGE INDEX=1 TYPE="README">
+         <TEXT>This will install the driver and DLL.
+By installing this SW you agree to accept any legal,financial or other consequences
+resulting out of the use of this SW. The SW is provided AS IS, without warranty of any kind.
+         </TEXT>
+         <README FORMAT=PLAIN>The BaseDev type Device driver and associated DLL allow execution of arbitrary user code in Ring 0.
+
+The driver and the also contained DLL allow an application to execute arbitrary user code in Ring 0.
+The SYSENTER and SYSEXIT instructions are used for this purpose.
+The driver sets up the system in a way that SYSENTER and SYSEXIT can actually work.
+Then, an application can register up to 256 functions with the DLL that it wants to execute in Ring 0.
+Each user function has a fixed number of 2 ULONG input arguments and a ULONG return value.
+The also contained test utility shows how to invoke the registration function.
+
+The registration function exported by SYSCALL.DLL has this function signature:
+typedef APIRET (APIENTRY *WRAPPERPFN)(ULONG index,ULONG arg1,ULONG arg2);
+typedef APIRET (APIENTRY *USERPFN)(ULONG arg1,ULONG arg2);
+extern WRAPPERPFN APIENTRY registerUserFunctions(USERPFN *FuncTable,ULONG numFuncs);
+
+This function allows an application to register a table of functions "FuncTable"
+with "numFuncs" different functions.
+"registerUserFunctions" will return a "wrapper" function
+which will in turn allow to invoke one of the user functions:
+
+APIRET APIENTRY UserFunction1(ULONG arg1,ULONG arg2)
+{
+   ...
+   return 1;
+}
+
+APIRET APIENTRY UserFunction2(ULONG arg1,ULONG arg2)
+{
+   ...
+   return 1;
+}
+
+
+USERPFN FunctionTable[2] = {UserFunction1,UserFunction2};
+WRAPPERPFN wrapper = registerUserFunctions(FunctionTable,2);
+if (wrapper)
+{
+   rc = wrapper(0,0xAEAEAEAEUL,0x12345678UL); // call first function (index = 0)
+}
+
+NOTE:because the user functions execute in Ring 0 you CANNOT call any OS/2 API functions
+or any RTL functions that in turn call any OS/2 API functions as the OS/2 API functions
+need to be invoked from Ring 3 ! If you do not follow this advice, you will experience a trap
+in Ring 0 while executing your user function.
+This means that you will be displayed with the dreaded trap screen
+(showing the register dump and leaving no other choice but to power down or reboot the system)
+or experience a complete system hang !
+On the other hand you can invoke API functions that are only available in Ring 0,
+like for example the KEE functions.
+
+
+The test utility source code (see source code package) illustrates the concept of use.
+
+The driver will write trace data to the trace utility
+which can then be viewed with TRACEFMT.EXE. You will need to install the trace formatting file
+for a decent human readable formatting of the trace data.
+
+
+I used OpenWatcom and ALP (IBM assembler) to create the driver.
+You also need the DDK and the OS/2 toolkit.
+Due to copyright issues I cannot distribute the "wat2map.cmd" REXX script
+to convert Watcom map files into a format compatible with the mapsym.exe utility.
+However you will find this script file in the Internet.
+         </README>
+      </PAGE>
+      <PAGE INDEX=2 TYPE=CONTAINER>
+         <TEXT>You can freely choose the target directories for the sources. The target directory for the binaries/trace file is fixed.</TEXT>
+      </PAGE>
+      <PAGE INDEX=3 TYPE="CONFIGURE">
+         <TEXT>Accept the config.sys update to install the driver.</TEXT>
+         <NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+      </PAGE>
+   </BODY>
+</WARPIN>

@@ -1,0 +1,197 @@
+<WARPIN VERSION="0.9.20">
+
+<HEAD>
+
+<!-- Find DLL directory. Environment "osdir" when it exists, or ?:\OS2\APPS\DLL otherwise-->
+<REXX NAME="HookPath">
+  Call RxFuncAdd 'SysLoadFuncs', 'RexxUtil', 'SysLoadFuncs'
+  Call SysLoadFuncs
+  HPath=value('osdir',,'OS2ENVIRONMENT')
+  If ''=HPath then HPath='?:\OS2\APPS'
+  return HPath'\DLL'
+</REXX>
+
+<!-- Find X(e)Center directory-->
+<REXX NAME="getXCenterDir">
+  Call RxFuncAdd 'SysLoadFuncs', 'RexxUtil', 'SysLoadFuncs'
+  Call SysLoadFuncs
+  XCLoc=SysIni(,'XWorkplace','XFolderPath')
+  XCLoc=left(XCLoc, length(XCLoc)-1)
+  return XCLoc'\plugins\xcenter'
+</REXX>
+
+<!-- Note that the PACKAGEID data has been truncated, to allow the build script to add the new information -->
+
+<PCK INDEX=1
+     PACKAGEID="Netlabs\lSwitcher\Hook\2\92\0\0"
+     TARGET="=("HookPath")"
+     TITLE="lSwitcher Hook"
+     SELECT
+     NODESELECT
+     LONGFILENAMES
+     KILLPROCESS="lswhook.dll"
+    
+     >This package contains the lSwitcher hook utility.
+
+This must be installed in order for lSwitcher to
+function.
+
+All other copies, in LIBPATH, will be removed.
+     </PCK>
+
+<PCK INDEX=2
+     PACKAGEID="Netlabs\lSwitcher\Common\2\92\0\0"
+     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\lSwitcher"
+     BASE
+     TITLE="lSwitcher Common"
+     SELECT
+     NODESELECT
+     LONGFILENAMES
+     REQUIRES=1
+     CREATEOBJECT="WPFolder|lSwitcher|<WP_DESKTOP>|OBJECTID=<LSWITCHER_FOLDER>"
+     CREATEOBJECT="WPProgram|lSwitcher User Guide|<LSWITCHER_FOLDER>|EXENAME=VIEW.EXE;PARAMETERS=$(2)\lswitch.HLP;OBJECTID=<LSWITCHERHELP>;"
+     CREATEOBJECT="WPProgram|Manual del usuario de lSwitcher|<LSWITCHER_FOLDER>|EXENAME=VIEW.EXE;PARAMETERS=$(2)\lswitch_es.HLP;OBJECTID=<LSWITCHERHELPES>;"
+     CREATEOBJECT="WPProgram|Read me|<LSWITCHER_FOLDER>|EXENAME=E.EXE;PARAMETERS=$(2)\Readme;OBJECTID=<LSWITCHERREADME>;"
+     CREATEOBJECT="WPProgram|L‚ame|<LSWITCHER_FOLDER>|EXENAME=E.EXE;PARAMETERS=$(2)\Readme.es;OBJECTID=<LSWITCHERREADMEES>;"
+     CREATEOBJECT="WPProgram|History|<LSWITCHER_FOLDER>|EXENAME=E.EXE;PARAMETERS=$(2)\history;OBJECTID=<LSWITCHERHISTORY>;"
+     CREATEOBJECT="WPProgram|GNU Public License|<LSWITCHER_FOLDER>|EXENAME=E.EXE;PARAMETERS=$(2)\copying;OBJECTID=<LSWITCHERLICENSE>;"
+     CLEARPROFILE="USER\lSwitcher"
+     EXECUTE="Remove_unwanted_LSWHOOK.DLL_files"|$(2)\NukeLSWFiles.cmd LIBPATH LSWHOOK.DLL "=("HookPath")"
+     EXECUTE="Remove_unwanted_LSWHOOK.SYM_files"|$(2)\NukeLSWFiles.cmd LIBPATH LSWHOOK.sym "=("HookPath")"
+     EXECUTE="Remove_unwanted_LSWHOOK.MAP_files"|$(2)\NukeLSWFiles.cmd LIBPATH LSWHOOK.map "=("HookPath")"
+     EXECUTE="Remove_unwanted_LSWHOOK.XQS_files"|$(2)\NukeLSWFiles.cmd LIBPATH LSWHOOK.xqs "=("HookPath")"
+     EXECUTE="Remove_unwanted_LSWHOOK.MAP-IBM_files"|$(2)\NukeLSWFiles.cmd LIBPATH LSWHOOK.map-ibm "=("HookPath")"
+     DEEXECUTE=$(2)\NukeLSWFiles LIBPATH LSWHOOK.DLL
+     DEEXECUTE=$(2)\NukeLSWFiles LIBPATH LSWHOOK.sym
+     DEEXECUTE=$(2)\NukeLSWFiles LIBPATH LSWHOOK.map
+     DEEXECUTE=$(2)\NukeLSWFiles LIBPATH LSWHOOK.xqs
+     DEEXECUTE=$(2)\NukeLSWFiles LIBPATH LSWHOOK.map-ibm
+     >Contains the common lSwitcher support files.
+     </PCK>
+
+<PCK INDEX=3
+     PACKAGEID="Netlabs\lSwitcher\Taskbar\2\92\0\0"
+     TARGET="$(WARPIN_DEFAULTTOOLSPATH)\lSwitcher"
+     TITLE="lSwitcher Taskbar"
+     REQUIRES=1
+     REQUIRES=2
+     CREATEOBJECT="WPProgram|lSwitcher|<LSWITCHER_FOLDER>|EXENAME=$(3)\lswitch.exe;OBJECTID=<LSWITCHER>"
+     LONGFILENAMES
+     >Contains the lSwitcher Taskbar.
+
+If you also install the Widget this Taskbar will not start
+when XCenter is open.
+See the included documentation for more details.
+     </PCK>
+     
+<PCK INDEX=4
+     PACKAGEID="Netlabs\lSwitcher\Widget\2\92\0\0"
+     TARGET="=("getXCenterdir")"
+     TITLE="lSwitcher Widget for X(e)Center"
+     REQUIRES=1
+     REQUIRES=2
+     REQUIRES="Ulrich M”ller\XWorkplace\Kernel\1\0\1"
+     LONGFILENAMES
+     >Contains the lSwitcher Widget for X(e)Center.
+ 
+It requires X(e)Center to be installed 
+before installing the Widget.
+
+If you also install the Taskbar it (Taskbar) will not start
+when XCenter is open. Do not install this package
+if you plan to use the lSwitcher Taskbar package
+See the included documentation for more details.
+     </PCK>
+
+<PCK INDEX=5
+     PACKAGEID="Netlabs\lSwitcher\DosTSR\2\92\0\0"
+     TARGET="?:\OS2\MDOS\LSWDOS"
+     TITLE="lSwitcher DOS TSR"
+     REQUIRES=1
+     REQUIRES=2
+     >Contains the DOS lSwitcher TSR
+(Terminate Stay Resident) utility.
+  
+To enable use of the lSwitcher text mode task
+List, this must be loaded in each DOS full screen
+session or added to AUTOEXEC.BAT (NOT done
+during install). See the included documentation
+for more details.
+ 
+This is only needed for DOS full screen sessions.
+     </PCK>
+
+</HEAD>
+
+<BODY>
+
+<PAGE INDEX=1 TYPE=README>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>NOTE:  A special thanks to Andrei Los for originally developing this program as open source software. Thanks also goes to others who have worked to improve and enhance this great program.</TEXT>
+<README FORMAT=PLAIN EXTRACTFROMPCK="2">readme</README>
+</PAGE>
+
+<PAGE INDEX=2 TYPE=README>
+<NEXTBUTTON TARGET=3>~I agree</NEXTBUTTON>
+<TEXT>lSwitcher License: By pressing the "I agree" button, you agree to all terms and conditions of the license agreement below.</TEXT>
+<README EXTRACTFROMPCK="2">copying</README>
+</PAGE>
+
+<PAGE INDEX=3 TYPE=README>
+<NEXTBUTTON TARGET=4>~Next</NEXTBUTTON>
+<TEXT>A note of warning about installing if previous versions are installed.
+You should uninstall any pre 2.90 versions of lSwitcher before installing this package.</TEXT>
+<README FORMAT=HTML>
+<P>Why uninstall:
+<OL>
+  <LI>The hook and resource files have changed and are version specific.
+  <LI>An old Widget install will prevent the Taskbar from running if X(e)Center is open.
+  <LI>An old Taskbar Icon may still be present and might fail or exhibit strange behavior.
+  <LI>Versions prior to 2.80 were installed manually.
+  <LI>The structure of this WPI package changed in version 2.90 and will not overwrite/remove files from pre 2.90 installs.
+</OL>
+
+<P>If you plan on removing language DLL(s) manually:
+<OL>
+  <LI>Open the Properties notebook (Taskbar or Widget).
+  <LI>Go to the Miscellaneous tab.
+  <LI>Change Language to the language you desire, and save settings.
+  <LI>Close the Properties notebook.
+  <LI>Delete unused language DLL(s) as desired.
+</OL>
+</README>
+</PAGE>
+
+<PAGE INDEX=4 TYPE=README>
+<NEXTBUTTON TARGET=5>~Next</NEXTBUTTON>
+<TEXT>Installing the Taskbar and the Widget together, and the DOS TSR.</TEXT>
+<README FORMAT=HTML>
+<P>While you can install both the Taskbar and 
+the X(e)Center Widget at the same time, DO NOT 
+attempt to run the Taskbar and the 
+X(e)Center Widget at the same time. Simply having
+X(e)Center open with the Widget installed will
+prevent the Taskbar from running if 
+X(e)Center is open.
+
+<P> The DOS TSR is only useful for full screen
+DOS sessions. The installer doesn't add it to
+AUTOEXEC.BAT.
+
+<P>See the documentation for more details.
+</README>
+</PAGE>
+
+<PAGE INDEX=5 TYPE=CONTAINER>
+<NEXTBUTTON TARGET=6>~Next</NEXTBUTTON>
+<TEXT>Select your installation directory.</TEXT>
+</PAGE>
+
+<PAGE INDEX=6 TYPE=CONFIGURE>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>Please select/deselect the desired configuration option(s).</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>
+

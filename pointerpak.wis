@@ -1,0 +1,141 @@
+<WARPIN>
+<HEAD>
+<PCK INDEX=1 
+	PACKAGEID="Several\Pointer Pack\Pointer Pack\1\5\0 
+	TITLE="Pointer Pack for OS/2" 
+	TARGET="C:\OS2\POINTERS" 	
+
+CREATEOBJECT="WPProgram|Pointer Pack Readme|<WP_DESKTOP>|EXENAME=e.exe;PARAMETERS=$(1)\pointerpak.txt;OBJECTID=<PointerPakReadme>;" 
+	
+CREATEOBJECT="WPurl|OS2World|<WP_DESKTOP>|URL=http://www.os2world.com/;OBJECTID=<URLOS2W>;">Pointer Pack for OS/2</PCK>
+
+
+</HEAD>
+<BODY>
+
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+Welcome !!
+
+
+This will install Pointer Pack for OS/2 on your machine.
+
+This package contains:
+
+- Amiga 1 by Andy Longton
+- Amiga 2 by Andy Longton
+- Andy
+- Andy Animated
+- Arrows
+- Big Arrow (Animated)
+- Big Black Cleared
+- Big Black Smoke
+- Big Bloddy  by Juhapekka Tolvanen
+- Big Color
+- Big Drawingboard Pencil
+- Big White Cleared
+- Big White Smoke
+- Black Cleared
+- Black Glass
+- Black Smoke
+- Black with boder
+- Blue Pointer
+- BUGS by Stardock
+- Buttlerfly
+- Charge 2
+- Charged
+- Cherub by Kyle Barrow
+- Cigar by Eric Laffoon
+- Color
+- Colored Double Orbs
+- Colored Single Orb
+- Cross Black
+- Cross White
+- Cyan 3D
+- Dancin' Bear by Ward Kaatz 
+- Descent
+- Drawing Pencils
+- eCS Blue Double Ball
+- eCS Colored Double Ball
+- eCS Logo
+- eCS Red Double Ball
+- eCS Red-Blue Double Ball
+- eCS Single Ball
+- eCS Single Ball Blue
+- Enterprise
+- Euge Hand By Euge
+- Evil Grey Alien by  Mr. Zed
+- Future
+- Glasses by Kemi
+- Glasses 2 Colors by Kemi
+- Globes 3
+- Glove Blue
+- Glove Natural
+- Glove Natural 2
+- Glove Yellow
+- Globes 2 by Rob McElrath
+- Gray 3D - 2 by Christian Hennecke
+- Gray 3D - 3 By Euge
+- Green
+- Hand with Stick By BGR
+- Handy
+- Kupo by Pat Gunn
+- LadyBug by Leon Grossman
+- Maggie Wait
+- Magic Marker
+- Magic Mouse
+- Mouse By BGR
+- Power Glove
+- Purple
+- Rodent by Robert Billing
+- Red
+- Red Drawin Pencil
+- Rodent
+- Shadow
+- Solid by Martin H. Speiser 
+- StarTrek by Rob McElrath
+- Stone Age
+- Sun By Kyle Barrow
+- Sword
+- Transparent by Tim Middleton
+- Transparent Blue By BGR
+- Transparent Small by Tim Middleton
+- White Cleared
+- White Glass
+- White Smoke
+- Windows 95 by Brendon Baumgarter
+- Winwag (Animated)
+- X by Simon Pasieka
+
+Select "Next" to Continue.
+Select "Cancel" to abort installation.
+
+</TEXT>
+</PAGE>
+
+
+<PAGE INDEX=2 TYPE=CONTAINER >
+<NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+<TEXT>
+Select the Package you want to install and on which folder do you want it to be installed.
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=3 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+
+Press Install to start copying files to your Hard Disk.
+
+
+To change your OS/2 pointers go to "OS/2 System -> System Setup ->Mouse". Select the pointers tag and click on "Load Set" to select the kind of Pointers you want to use.
+
+Visit: http:/www.os2world.com/
+
+
+</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>
