@@ -1,0 +1,91 @@
+<WARPIN>
+<HEAD>
+<PCK INDEX=1 
+	PACKAGEID="ID Software\Quake for OS/2 and DOS\Quake for OS/2 and DOS\1\0\0 
+	TITLE="Quake for OS/2 and DOS" 
+	TARGET="$(WARPIN_DEFAULTAPPSPATH)\Quake" 	
+
+	CREATEOBJECT="WPFolder|Quake|<WP_DESKTOP>|ICONFILE=$(1)\icons\folder.ico;SET DOS_DEVICE=;ICONNFILE=1,$(1)\icons\folder0.ico;PROGTYPE=FULLSCREEN;ICONSHADOWCOLOR=1 1 1;OBJECTID=<QuakeFOLDER>;" 	
+	
+	CREATEOBJECT="WPProgram|Quake for OS/2|<QuakeFOLDER>|EXENAME=$(1)\quakefs.exe;PROGTYPE=FULLSCREEN;ICONFILE=$(1)\icons\quake1.ICO;OBJECTID=<QuakeWarp>;" 
+	
+CREATEOBJECT="WPProgram|Quake for DOS|<QuakeFOLDER>|EXENAME=$(1)\quake.exe;PROGTYPE=FULLSCREEN;ICONFILE=$(1)\icons\quake.ICO;OBJECTID=<QuakeDOS>;" 
+
+CREATEOBJECT="WPProgram|Quake for OS2 Readme|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\quakefs.txt;ICONFILE=$(1)\icons\readme.ICO;OBJECTID=<QuakeWarpReadMe>;" 
+	
+	CREATEOBJECT="WPProgram|Quake for DOS and OS2 Readme|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\os2readme.txt;ICONFILE=$(1)\icons\readme.ICO;OBJECTID=<QuakeOS2ReadMe>;" 
+
+CREATEOBJECT="WPProgram|Quake Readme|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\readme.txt;ICONFILE=$(1)\icons\readme.ICO;OBJECTID=<QuakeReadMe>;" 
+
+	CREATEOBJECT="WPProgram|TechInfo|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\TECHINFO.TXT;ICONFILE=$(1)\icons\techinfo.ICO;OBJECTID=<QuakeTechInfo>;" 
+
+CREATEOBJECT="WPProgram|Help|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\Help.txt;ICONFILE=$(1)\icons\help.ICO;OBJECTID=<QuakeHelp>;" 
+
+CREATEOBJECT="WPProgram|License Info|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\LICINFO.txt;ICONFILE=$(1)\icons\help.ICO;OBJECTID=<QuakeLICINFO>;" 
+
+CREATEOBJECT="WPProgram|Order|<QuakeFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\order.txt;ICONFILE=$(1)\icons\help.ICO;OBJECTID=<QuakeOrder>;" 
+	
+	CREATEOBJECT="WPurl|OS2World|<QuakeFOLDER>|URL=http://www.os2world.com/;OBJECTID=<URLOS2W>;"
+
+CREATEOBJECT="WPurl|OS2World Gaming Site|<QuakeFOLDER>|URL=http://www.os2world.com/games/;OBJECTID=<URLOS2WGS>;"
+
+CREATEOBJECT="WPShadow|QuakeFS for OS/2 Source Code|<QuakeFOLDER>|SHADOWID=$(1)\quakefssource.zip;OBJECTID=<QuakeFSSourceCode>;"
+
+>Quake 1.0 for OS/2 and DOS</PCK>
+
+
+</HEAD>
+<BODY>
+
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+Welcome !!
+
+
+This will install Quake for OS/2 and DOS Shareware on your machine.
+
+This package contains:
+
+- Quake 1.0X for DOS Shareware from ID Software
+- QuakeFS 1.01 for OS/2 by A friend
+- Quake DOS settings for OS/2 original by Duane A. Chamblee (duanec@ibm.net) with his icons
+- And the adicional Quake Icons for OS/2 submited by Emre (emrek@uclink4.berkeley.edu)
+
+Aditional
+
+- Source code of QuakeFS (quakefssource.zip)
+
+
+Select "Next" to Continue.
+Select "Cancel" to abort installation.
+
+</TEXT>
+</PAGE>
+
+
+<PAGE INDEX=2 TYPE=CONTAINER >
+<NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+<TEXT>
+Select the Package you want to install and on which folder do you want it to be installed.
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=3 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+
+Press Install to start copying files to your Hard Disk.
+
+
+Visit: http:/www.os2world.com/games
+
+and
+
+http://www.idsoftware.com
+
+</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>

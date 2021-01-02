@@ -1,0 +1,48 @@
+<WARPIN>
+
+<HEAD>
+
+<!-- This is a commnet. Remember too keep the conventions! Take a look at the Conventions for places where you see SectionName or ProgName. You only need to change something that is in **Here is what to change**. 
+  The first thig is the prog's name etc.. The comes the prog's icon (with the needed folder) and the prog's documents references (and it's folders). Last  but not least are the config.sys statements and the program's description.
+  You can remove the lines you don't need. Notice me for any thing that does not follow conventions (such as two different Prog ICONs in one package, so I can notice them on the Web-page.-->
+
+<PCK INDEX=1
+     PACKAGEID="OSK\**ProgName**\**PackageName(mostly the same than ProgName)**\**Version Major**\**Version Minor(Number behind the dot)**"
+     TARGET="$(OSK_DRIVE):$(**OSK_PMPATH(or OSK_TXTPATH)**)\**Section**\**ProgsPathName**"
+     TITLE="**Full Descriptive ProgName**"
+
+<!-- the next line is for ICONs in the AutoStart folder only. remove it if you don't need it. The OSK_Start_ProgName is for that there can be two ICONS for the same prog, one in the app folder an one in the startup. -->
+     CREATEOBJECT="WPProgram|**Full Descriptive  ProgName**|WP_START|EXENAME=$(1)\**ProgName.EXE(or CMD etc)**;OBJECTID=<OSK_Start_**ProgName**>" 
+
+     CREATEOBJECT="WPFolder|**SectionName**|<WP_DESKTOP>|OBJECTID=<OSK_**SectionName**>"
+     CREATEOBJECT="WPProgram|**Full Descriptive  ProgName**|<OSK_**SectionName**>|EXENAME=$(1)\**ProgName.EXE(or CMD etc)**;ASSOCFILTER=**Applications-association Filter if any(e.g. *.INI)**;OBJECTID=<OSK_**ProgName**>" 
+
+     CREATEOBJECT="WPFolder|Application Docs|<WP_DESKTOP>|OBJECTID=<OSK_AppDocs>"
+     CREATEOBJECT="WPFolder|**SectionName** Docs|<OSK_AppDOCs>|OBJECTID=<OSK_**SectionName(or "Console" for NON-PM programs)**Docs>"
+
+** Remove this lines if it's a PM Program CREATEOBJECT="WPFolder|Console - **Section** Docs|<OSK_ConsoleDocs>|OBJECTID=<OSK_Cons**SectionName**Docs>" **
+
+** creation of Referenzes for DOCs here (does not work yet    CREATEOBJECT="WP???|TVFS Information|<OSK_ConsAdminDocs>|EXENAME=view.exe;PARAMETERS=$(1)\TVFS.inf;OBJECTID=<OSK_TVFSINF>" **
+
+     CONFIGSYS="**Append Statements to Variables(e.g. PATH=;$(1))** | ADDRIGHT"  
+     CONFIGSYS="**Add this line to the Config.sys if not there yet** | UNIQUE"  
+
+     SELECT NODESELECT
+     > This package contains **Shor Description of the Package here**.</pck>
+</HEAD>
+
+<BODY>
+<PAGE INDEX=1 TYPE=CONTAINER>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+Want to change the path?
+</TEXT>
+</PAGE>
+<PAGE INDEX=2 TYPE=CONFIGURE>
+<NEXTBUTTON TARGET=0>~Install</NEXTBUTTON>
+<TEXT>
+Press install to start
+</TEXT>
+</PAGE>
+</BODY>
+</WARPIN>

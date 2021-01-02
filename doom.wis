@@ -1,0 +1,64 @@
+<WARPIN>
+<HEAD>
+<PCK INDEX=1 PACKAGEID="Doom\Doom Flavors\Action Game\1\0\0 TITLE="Doom Flavors" TARGET="?:\Games\Doomflv" CREATEOBJECT="WPFolder|Doom Flavors|<WP_DESKTOP>|OBJECTID=<DOOMFOLDER>;" CREATEOBJECT="WPProgram|Doom for OS/2 Warp|<DOOMFOLDER>|EXENAME=$(1)\doom2.exe;OBJECTID=<doom2>;" CREATEOBJECT="WPProgram|MGL Doom|<DOOMFOLDER>|EXENAME=$(1)\MGLdoom.exe;OBJECTID=<mgldoom>;" CREATEOBJECT="WPProgram|OS/2 Doom|<DOOMFOLDER>|EXENAME=$(1)\os2doom.exe;OBJECTID=<os2doom>;"  CREATEOBJECT="WPProgram|Doom Legacy for OS/2|<DOOMFOLDER>|EXENAME=$(1)\Doomleg.exe;OBJECTID=<doomleg>;" CREATEOBJECT="WPProgram|Doom Flavors Readme|<DOOMFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\DoomFLV.txt;OBJECTID=<FlvReadMe>;" CREATEOBJECT="WPurl|OS2WORLD|<DOOMFOLDER>|URL=http://www.os2world.com;OBJECTID=<URLOS2W>;">Doom Flavors</PCK>
+
+</HEAD>
+<BODY>
+
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+
+
+Welcome !!
+
+
+Doom Flavors 1.0 contains:
+
+- OS2Doom 0.96 
+(port of WinDoom)
+
+- MGL Doom 
+by  Dimitris 'sehh' Michelinakis (sehh@altered.com)
+This version requires Scitech Display Doctor beta38 or later.
+
+- Doom Legacy for OS/2 v1.32, May 2001.
+
+
+- Doom for OS/2 Warp 1.9 beta 
+port by Jim Thomas
+
+
+
+Select "Next" to Continue.
+Select "Cancel" to abort installation.
+
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=2 TYPE=CONTAINER >
+<NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+<TEXT>
+Select the Package you want to install and on which folder do you want it to be installed.
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=3 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+
+Press Install to Begin copying files to your Hard Disk.
+
+
+
+
+
+
+
+"WarpIn Installer beta 1"
+
+</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>

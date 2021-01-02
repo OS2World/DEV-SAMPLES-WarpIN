@@ -1,0 +1,66 @@
+<WARPIN>
+<HEAD>
+<PCK INDEX=1 
+	PACKAGEID="Matthias L. Jugel - Marcus Meiáner\The Java Telnet Application\Java Telnet\2\5\b 
+	TITLE="The Java Telnet Application 2.5 beta" 
+	TARGET="$(WARPIN_DEFAULTAPPSPATH)\Java_Telnet" 	
+
+	CREATEOBJECT="WPFolder|The Java Telnet|<WP_DESKTOP>|;OBJECTID=<JavaTelnetFOLDER>;" 	
+	
+	CREATEOBJECT="WPProgram|The Java Telnet|<JavaTelnetFOLDER>|EXENAME=java.exe;PARAMETERS=-jar JTA25B.JAR;STARTUPDIR=$(1);MINIMIZED=Yes;ICONFILE=$(1)\telnet.ico;OBJECTID=<RunJavaTelnet>;" 
+
+	CREATEOBJECT="WPProgram|Readme|<JavaTelnetFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\readme.txt;OBJECTID=<JavaTelnetReadMe>;" 
+
+CREATEOBJECT="WPProgram|License|<JavaTelnetFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\license.txt;OBJECTID=<JavaTelnetLicense>;" 
+
+CREATEOBJECT="WPurl|The Java Telnet Homepage|<JavaTelnetFOLDER>|URL=http://javassh.org/;OBJECTID=<URLJavatel>;"
+	
+CREATEOBJECT="WPurl|OS2World|<JavaTelnetFOLDER>|URL=http://www.os2world.com;OBJECTID=<URLOS2W>;"
+
+CREATEOBJECT="WPShadow|Java Telnet Source Code|<JavaTelnetFOLDER>|SHADOWID=$(1)\jta25b-src.jar;ICO;OBJECTID=<JavaTelnetSourceCode>;" 
+
+>The Java Telnet Application</PCK>
+
+
+</HEAD>
+<BODY>
+
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+Welcome !!
+
+
+This will install The Java Telnet Application on your machine.
+
+This package contains:
+
+- The Java Telnet Application 2.5 beta
+
+Select "Next" to Continue.
+Select "Cancel" to abort installation.
+
+</TEXT>
+</PAGE>
+
+
+<PAGE INDEX=2 TYPE=CONTAINER >
+<NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+<TEXT>
+Select the Package you want to install and on which folder do you want it to be installed.
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=3 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+
+Press Install to start copying files to your Hard Disk.
+
+
+
+</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>

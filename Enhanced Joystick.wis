@@ -1,0 +1,56 @@
+<WARPIN>
+<HEAD>
+<PCK INDEX=1 PACKAGEID="Vesa\Enhanced Joystick Driver\Paquete\0\2\xmas TITLE="Enhanced Joystick Drivers" TARGET="?:\DRIVERS\JOYSTICK" CONFIGSYS="REM ---------Enhanced Joystick Drivers ------" CONFIGSYS="DEVICE=$(1)\GAMEDD.SYS" CONFIGSYS="DEVICE=$(1)\GAMEVDD.SYS" CONFIGSYS="REM ---------END Enhanced Joystick Drivers ------" CREATEOBJECT="WPFolder|Enhanced Joystick driver|<WP_DESKTOP>|OBJECTID=<JOYFOLDER>;" CREATEOBJECT="WPProgram|Joystick Configuration|<JOYFOLDER>|EXENAME=$(1)\joyconf.exe;OBJECTID=<JOY>;" >Enhaced Joystick Drivers</PCK>
+
+</HEAD>
+<BODY>
+
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+
+
+Welcome !!
+
+
+This will install the Enhanced Joystick Drivers v0.2 - XMas edition
+by Vesa J„„skel„inen
+
+If you have previously installed other joystick drivers please uninstall
+them before installing this driver. 
+
+Select "Next" to Continue.
+Select "Cancel" to abort installation.
+
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=2 TYPE=CONTAINER >
+<NEXTBUTTON TARGET=3>~Next</NEXTBUTTON>
+<TEXT>
+Select the Package you want to install and on which folder do you want it to be installed.
+</TEXT>
+</PAGE>
+
+<PAGE INDEX=3 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+
+Press Install to Begin copying files to your Hard Disk.
+Your CONFIG.SYS will be changed, you will need to reboot.
+
+
+Visit http://www.tietomyrsky.fi/~jaaskela/
+
+or the Online Group at http://groups.yahoo.com/ejoyos2
+
+
+Thanks for using this Drivers.
+
+"WarpIn Installer beta 1"
+
+</TEXT>
+</PAGE>
+
+</BODY>
+</WARPIN>

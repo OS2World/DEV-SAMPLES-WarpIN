@@ -1,0 +1,106 @@
+<WARPIN VERSION="0.9.8" OS="OS2_3x">
+<HEAD>
+<PCK INDEX=1
+     PACKAGEID="Fudeba Software\Internet Apps\PM Download Center\0\6\0"
+     TARGET="?:\PMDC" BASE SELECT
+     TITLE="Presentation Manager Download Center"
+
+     CREATEOBJECT="WPFolder|Fudeba Software|<WP_DESKTOP>|ICONFILE=$(1)\icons\fdbfold1.ico;ICONNFILE=1,$(1)\icons\fdbfold2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_FUDEBAFOLDER>;"
+     CREATEOBJECT="WPFolder|PM Download Center|<WP_FUDEBAFOLDER>|ICONFILE=$(1)\icons\pmdcfld1.ico;ICONNFILE=1,$(1)\icons\pmdcfld2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCFOLDER>;"
+     CREATEOBJECT="WPFolder|Log Files|<WP_PMDCFOLDER>|ICONFILE=$(1)\icons\logfold1.ico;ICONNFILE=1,$(1)\icons\logfold2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCLOGFOLDER>;"
+
+     CREATEOBJECT="WPFolder|Tmp|$(1)|ICONFILE=$(1)\icons\fdbfold1.ico;ICONNFILE=1,$(1)\icons\fdbfold2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCTMPFOLDER>;"
+     CREATEOBJECT="WPFolder|Logs|$(1)|ICONFILE=$(1)\icons\logfold1.ico;ICONNFILE=1,$(1)\icons\logfold2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCLOGREALFOLDER>;"
+     CREATEOBJECT="WPFolder|Download|$(1)|ICONFILE=$(1)\icons\downfld1.ico;ICONNFILE=1,$(1)\icons\downfld2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCDOWNLOADFOLDER>;"
+     CREATEOBJECT="WPFolder|Scan|$(1)|ICONFILE=$(1)\icons\scnfold1.ico;ICONNFILE=1,$(1)\icons\scnfold2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCSCANFOLDER>;DEFAULTVIEW=DETAILS;"
+     CREATEOBJECT="WPFolder|URLs|$(1)|ICONFILE=$(1)\icons\trashf1.ico;ICONNFILE=1,$(1)\icons\trashf2.ico;BACKGROUND=$(1)\images\foldback.bmp;ICONSHADOWCOLOR=1 1 1;ICONTEXTCOLOR=1 1 1;ICONTEXTBACKGROUNDCOLOR=255 255 255;OBJECTID=<WP_PMDCURLSFOLDER>;DEFAULTVIEW=DETAILS;"
+
+     CREATEOBJECT="WPShadow|Download|<WP_PMDCFOLDER>|SHADOWID=<WP_PMDCDOWNLOADFOLDER>;OBJECTID=<WP_PMDCDOWNLOADFOLDERSHADOW>;"
+     CREATEOBJECT="WPShadow|Scan|<WP_PMDCFOLDER>|SHADOWID=<WP_PMDCSCANFOLDER>;OBJECTID=<WP_PMDCSCANFOLDERSHADOW>;"
+     CREATEOBJECT="WPShadow|URLs|<WP_PMDCFOLDER>|SHADOWID=<WP_PMDCURLSFOLDER>;OBJECTID=<WP_PMDCURLSFOLDERSHADOW>;"
+
+     CREATEOBJECT="WPProgram|PM Download Center|<WP_PMDCFOLDER>|EXENAME=$(1)\pmdc.exe;STARTUPDIR=$(1)\;ICONFILE=$(1)\icons\pmdc.ico;OBJECTID=<WP_PMDCPROGRAM>;"
+     CREATEOBJECT="WPProgram|Connection Verify Tester|<WP_PMDCFOLDER>|EXENAME=$(1)\contest.exe;STARTUPDIR=$(1)\;ICONFILE=$(1)\icons\contest.ico;OBJECTID=<WP_CONTESTPROGRAM>;"
+     CREATEOBJECT="WPProgram|PM Download Center Debug Mode|<WP_PMDCFOLDER>|EXENAME=$(1)\pmdc.exe;PARAMETERS=1;STARTUPDIR=$(1)\;ICONFILE=$(1)\icons\pmdc.ico;OBJECTID=<WP_PMDCDEBUGPROGRAM>;"
+
+     CREATEOBJECT="WPShadow|PM Download Center|<WP_START>|SHADOWID=<WP_PMDCPROGRAM>;OBJECTID=<WP_PMDCPROGRAMSHADOW>;"
+
+     CREATEOBJECT="WPProgram|PM Download Center Handbook|<WP_PMDCFOLDER>|EXENAME=view.exe;PARAMETERS=$(1)\docs\pmdc.inf;ICONFILE=$(1)\icons\book.ico;OBJECTID=<WP_PMDCREADME>;"
+     CREATEOBJECT="WPProgram|PM Download Center Register Form|<WP_PMDCFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\docs\register.frm;ICONFILE=$(1)\icons\datafile.ico;OBJECTID=<WP_PMDCREGISTERFRM>;"
+     CREATEOBJECT="WPProgram|Connection Verify Log|<WP_PMDCLOGFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\logs\contest.log;ICONFILE=$(1)\icons\logfile.ico;OBJECTID=<WP_PMDCCONTESTLOG>;"
+     CREATEOBJECT="WPProgram|PM Download Center Log|<WP_PMDCLOGFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\logs\pmdc.log;ICONFILE=$(1)\icons\logfile.ico;OBJECTID=<WP_PMDCLOG>;"
+     CREATEOBJECT="WPProgram|PM Download Center Getting Log|<WP_PMDCLOGFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\logs\getting.log;ICONFILE=$(1)\icons\logfile.ico;OBJECTID=<WP_PMDCGETTINGLOG>;"
+     CREATEOBJECT="WPProgram|Downloaded URL Log|<WP_PMDCLOGFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\logs\download.log;ICONFILE=$(1)\icons\logfile.ico;OBJECTID=<WP_PMDCDOWNLOADLOG>;"
+
+     CREATEOBJECT="WPUrl|Fudeba OS/2 Software Homepage|<WP_FUDEBAFOLDER>|URL=http://www.quasarbbs.com/daniel/;ICONFILE=$(1)\icons\url.ico;OBJECTID=<WP_FUDEBAOS2HOME>;"
+          >This package contains the Presentation Manager Download Center.</PCK>
+<PCK INDEX=2
+     PACKAGEID="Fudeba Software\Internet Apps\WGet and Helpers\1\5\6"
+     TARGET="$(1)" FIXED SELECT
+     TITLE="WGet and Helpers">This package contains WGet (including latest EMX) and other helpers for PM Download Center.</PCK>
+</HEAD>
+<BODY>
+<!-- page 1: introductory page -->
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+Welcome to PM Download Center!
+Now your downloads will be made without any trouble! Just two or three clicks and your files are being downloaded!
+The CPU overhead will be minimal, and your downloads will be made safely, for FTP or HTTP servers. You'll also notice that PM Download Center manages the download order, the amount of downloads and more!
+No more difficulty command lines to memorize. No more "start from the beggining because the connection goes down"... PM Download Center presents you with the best "reget" option for both FTP and HTTP, because it's based on WGet, one of the best (if not the best) download programs ever created.
+
+Thanks for choosing our software... 
+
+Select "Next" to continue.
+Select "Cancel" to abort installation.</TEXT>
+</PAGE>
+
+<!-- page 2: README Page -->
+<PAGE INDEX=2 TYPE=README>
+<NEXTBUTTON TARGET=3>~I Agree</NEXTBUTTON>
+<TEXT>
+Read carefully the license agreement. If you agree, continue with the installation pushing "I Agree". Otherwise, select "Cancel" to abort installation.</TEXT>
+<README FORMAT=FLOW>
+	THIS IS BETA SOFTWARE. IF YOU FIND ANY PROBLEMS, PLEASE CONTACT US AT dcaetano@sti.com.br .
+
+	THIS SOFTWARE IS FREEWARE AND IS DISTRIBUTED AS IS WITHOUT ANY TYPE OF WARRANTIES. USE IT AT YOUR OWN RISK!
+	FUDEBA SOFTWARE WILL NOT ANSWER FOR ANY TYPE OF DAMAGE MADE ON YOUR COMPUTER CAUSED BY THIS SOFTWARE.
+
+	We don't think that this program can damage your system. We are only warning you. BTW, this is more a "e-mailware" than a freeware. Please, send me the registration form if you plan to use this  software... This
+would help me to know if there is interest, so I can build new versions and even new programs. This is PUBLIC software. You are free to  distribute it  since  you keep the original Warp In package.
+
+	So, I'm sure you'll be kind and sent us your resgitration form!
+</README>
+</PAGE>
+
+<!-- The TYPE=CONTAINER will list the packages which can be installed. -->
+<PAGE INDEX=3 TYPE=CONTAINER>
+<NEXTBUTTON TARGET=4>~Next</NEXTBUTTON>
+<TEXT>
+Please, select the package you want to install, and select where you want it to be installed. Note that you don't need to install the provided WGet package, if you already have it installed, but the version that is packaged is certified to work with PM Download Center, so we recomend you to use it. The new package of WGet was updated with the new version of EMX libraries.
+</TEXT>
+</PAGE>
+
+<!-- The TYPE=CONFIGURE will determine what changes will happen to the system. -->
+<PAGE INDEX=4 TYPE=CONFIGURE>
+<NEXTBUTTON TARGET=5>~Next</NEXTBUTTON>
+<TEXT>
+Please, select the changes you want/do not want to be done to your system.
+</TEXT>
+</PAGE>
+
+<!-- isplay another TEXT page to inform the user
+        that installation will begin. We use the TARGET=0
+        with the NEXTBUTTON tag which starts installation. -->
+<PAGE INDEX=5 TYPE=TEXT>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+Configuration finished!
+
+Press "Install" to begin installing this archive.</TEXT>
+</PAGE>
+</BODY>
+</WARPIN>
+
+ 
+

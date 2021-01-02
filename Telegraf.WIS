@@ -1,0 +1,45 @@
+<WARPIN>
+<HEAD>
+<PCK INDEX=1 PACKAGEID="Chris Angelico\Telegraf\Program\4\3\6" TITLE="Telegraf/2 Program" 
+TARGET="$(WARPIN_DEFAULTAPPSPATH)\TELGRAF2"
+
+CREATEOBJECT="WPFolder|Telegraf/2|<WP_DESKTOP>|OBJECTID=<TelegrafFOLDER>;" 
+
+CREATEOBJECT="WPProgram|Telegraf/2|<TelegrafFOLDER>|EXENAME=$(1)\telgraf2.exe;OBJECTID=<telegrafProg>;" 
+
+CREATEOBJECT="WPProgram|Telegraf/2 Readme|<TelegrafFOLDER>|EXENAME=e.exe;PARAMETERS=$(1)\readme.TXT;OBJECTID=<telegrafreadme>;" 
+
+CREATEOBJECT="WPShadow|Source Code|<TelegrafFOLDER>|SHADOWID=$(1)\source.zip;OBJECTID=<TelegrafSourceCode>;" 
+
+CREATEOBJECT="WPShadow|Copying|<TelegrafFOLDER>|SHADOWID=$(1)\copying;OBJECTID=<Telegraflicense>;" 
+
+CREATEOBJECT="WPurl|OS2World|<TelegrafFOLDER>|URL=http://www.os2world.com;OBJECTID=<URLOS2W>;"
+
+CREATEOBJECT="WPurl|Telegraf/2 Web Site|<TelegrafFOLDER>|URL=http://www.kepl.com.au/Esstu/Telegraf.HTML;OBJECTID=<URLTelegraf>;"
+
+CREATEOBJECT="WPurl|Pigeon (Telegraf/2 Succesor)|<TelegrafFOLDER>|URL=http://www.kepl.com.au/Esstu/Pigeon.HTML;OBJECTID=<URLPigeon>;"
+
+>Program</PCK>
+
+<PCK INDEX=2 PACKAGEID="Chris Angelico\Telegraf\Samples\4\3\6" TITLE="Telegraf/2 Samples" TARGET="$(WARPIN_DEFAULTAPPSPATH)\TELGRAF2\SAMPLES" SELECT REQUIRES=1>Samples</PCK>
+</HEAD>
+<BODY>
+<PAGE INDEX=1 TYPE=TEXT>
+<NEXTBUTTON TARGET=2>~Next</NEXTBUTTON>
+<TEXT>
+Welcome! This will install Telegraf/2, an OS/2 PM messaging program.
+
+Your CONFIG.SYS, INI files, etc will not be modified by this installer.
+
+Select "Next" to continue, or "Cancel" to abort installation.
+</TEXT>
+</PAGE>
+<PAGE INDEX=2 TYPE=CONTAINER>
+<NEXTBUTTON TARGET=0>I~nstall</NEXTBUTTON>
+<TEXT>
+Select the packages desired and press "Install" to install Telegraf/2, or press "Cancel" to abort.
+</TEXT>
+</PAGE>
+</BODY>
+</WARPIN>
+
